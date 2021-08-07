@@ -98,6 +98,8 @@ pub struct FlyCamera {
 	pub key_down: KeyCode,
 	/// If `false`, disable keyboard control of the camera. Defaults to `true`
 	pub enabled: bool,
+	/// If `false`, disable mouse control of the camera. Defaults to `false`
+	pub mouse_enabled: bool,
 }
 impl Default for FlyCamera {
 	fn default() -> Self {
@@ -116,6 +118,7 @@ impl Default for FlyCamera {
 			key_up: KeyCode::Space,
 			key_down: KeyCode::LShift,
 			enabled: true,
+			mouse_enabled: false,
 		}
 	}
 }
@@ -208,14 +211,14 @@ fn mouse_motion_system(
 	}
 
 	for (mut options, mut transform) in query.iter_mut() {
-		if !options.enabled {
+		if !options.enabled || !options.mouse_enabled {
 			continue;
 		}
 		options.yaw -= delta.x * options.sensitivity * time.delta_seconds();
 		options.pitch += delta.y * options.sensitivity * time.delta_seconds();
 
 		options.pitch = options.pitch.clamp(-89.0, 89.9);
-		// println!("pitch: {}, yaw: {}", options.pitch, options.yaw);
+		println!("pitch: {}, yaw: {}", options.pitch, options.yaw);
 
 		let yaw_radians = options.yaw.to_radians();
 		let pitch_radians = options.pitch.to_radians();
