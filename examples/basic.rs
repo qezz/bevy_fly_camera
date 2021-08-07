@@ -12,7 +12,7 @@ fn init(
 	mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
 	// Light
-	commands.spawn().insert_bundle(LightBundle {
+	commands.spawn().insert_bundle(PointLightBundle {
 		transform: Transform::from_translation(Vec3::new(4.0, 8.0, 4.0)),
 		..Default::default()
 	});
@@ -105,7 +105,7 @@ fn toggle_camera_rotation_system(
 }
 
 fn main() {
-	App::build()
+	App::new()
 		.insert_resource(Msaa { samples: 4 })
 		.add_plugins(DefaultPlugins)
 		.add_startup_system(init.system())
